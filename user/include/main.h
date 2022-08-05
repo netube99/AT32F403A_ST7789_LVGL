@@ -8,10 +8,10 @@
 //bsp
 #include "gpio.h"
 #include "spi.h"
+#include "dma.h"
 
 //hardware
-#include "lcd_init.h"
-// #include "lcd.h"
+#include "lcd.h"
 
 //application
 

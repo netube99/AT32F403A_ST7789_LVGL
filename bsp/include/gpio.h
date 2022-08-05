@@ -15,8 +15,13 @@
 //lcd_cs
 #define GPIO_LCD_CS_PIN         GPIO_PINS_9
 #define GPIO_LCD_CS_PORT        GPIOB
-#define _GPIO_LCD_CS_H()       gpio_bits_write(GPIO_LCD_CS_PORT, GPIO_LCD_CS_PIN, TRUE)
-#define _GPIO_LCD_CS_L()       gpio_bits_write(GPIO_LCD_CS_PORT, GPIO_LCD_CS_PIN, FALSE)
+#define _GPIO_LCD_CS_H()        gpio_bits_write(GPIO_LCD_CS_PORT, GPIO_LCD_CS_PIN, TRUE)
+#define _GPIO_LCD_CS_L()        gpio_bits_write(GPIO_LCD_CS_PORT, GPIO_LCD_CS_PIN, FALSE)
+//lcd_blk
+#define GPIO_LCD_BLK_PIN        GPIO_PINS_7
+#define GPIO_LCD_BLK_PORT       GPIOC
+#define _GPIO_LCD_BLK_H()       gpio_bits_write(GPIO_LCD_BLK_PORT, GPIO_LCD_BLK_PIN, TRUE)
+#define _GPIO_LCD_BLK_L()       gpio_bits_write(GPIO_LCD_BLK_PORT, GPIO_LCD_BLK_PIN, FALSE)
 
 void Gpio_Init(void);
 

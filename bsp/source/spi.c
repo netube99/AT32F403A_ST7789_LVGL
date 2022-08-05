@@ -26,12 +26,14 @@ void Spi1_Init(void)
     spi_default_para_init(&spi_init_struct);
     spi_init_struct.transmission_mode = SPI_TRANSMIT_FULL_DUPLEX;
     spi_init_struct.master_slave_mode = SPI_MODE_MASTER;
-    spi_init_struct.mclk_freq_division = SPI_MCLK_DIV_128;
+    spi_init_struct.mclk_freq_division = SPI_MCLK_DIV_2;
     spi_init_struct.first_bit_transmission = SPI_FIRST_BIT_MSB;
     spi_init_struct.frame_bit_num = SPI_FRAME_8BIT;
     spi_init_struct.clock_polarity = SPI_CLOCK_POLARITY_LOW;
     spi_init_struct.clock_phase = SPI_CLOCK_PHASE_1EDGE;
     spi_init_struct.cs_mode_selection = SPI_CS_SOFTWARE_MODE;
     spi_init(SPI1, &spi_init_struct);
+
+    spi_i2s_dma_transmitter_enable(SPI1, TRUE);
     spi_enable(SPI1, TRUE);
 }
