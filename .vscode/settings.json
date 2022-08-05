@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "at32f403a_407_clock.h": "c",
+        "lcd_init.h": "c",
+        "lcd.h": "c",
+        "main.h": "c",
+        "compare": "c",
+        "spi.h": "c"
+    }
+}
