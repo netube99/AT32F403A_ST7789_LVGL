@@ -3,6 +3,8 @@
 
 dma_init_type dma_init_struct ;
 
+uint8_t dma1_ch3_busy = 0 ;
+
 void Dma1_Ch3_Config(uint32_t memory_base_addr, uint32_t peripheral_base_addr, uint16_t data_size)
 {
     crm_periph_clock_enable(CRM_DMA1_PERIPH_CLOCK, TRUE);
@@ -21,13 +23,21 @@ void Dma1_Ch3_Config(uint32_t memory_base_addr, uint32_t peripheral_base_addr, u
     dma_init(DMA1_CHANNEL3, &dma_init_struct);                                  //初始化dma
     dma_interrupt_enable(DMA1_CHANNEL3, DMA_FDT_INT, TRUE);                     //使能传输完成中断
     nvic_irq_enable(DMA1_Channel3_IRQn, 1, 0);//开启中断
+    dma1_ch3_busy = 1 ;
+    _DMA1CH3_ENABLE();
 }
 
 void DMA1_Channel3_IRQHandler(void)
 {
-    //DMA1通道2传输完成
-    if(dma_flag_get(DMA1_FDT2_FLAG))
+    //DMA1通道3传输完成
+    if(dma_flag_get(DMA1_FDT3_FLAG))
     {
-        dma_flag_clear(DMA1_FDT2_FLAG);
+        dma_flag_clear(DMA1_FDT3_FLAG);
+        dma1_ch3_busy = 0 ;
     }
+}
+
+uint8_t Dma1_Ch3_IsBusy()
+{
+    return dma1_ch3_busy ;
 }

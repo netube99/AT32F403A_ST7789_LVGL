@@ -9,11 +9,14 @@
 #include "gpio.h"
 #include "spi.h"
 #include "dma.h"
+#include "timer.h"
 
 //hardware
 #include "lcd.h"
 
 //application
+#include "lvgl.h"
+#include "lv_port_disp.h"
 
 void System_Init(void);
 

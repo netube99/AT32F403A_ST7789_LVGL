@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "lvgl.h": "c",
+        "main.h": "c",
+        "lv_hal.h": "c",
+        "lv_hal_disp.h": "c",
+        "dma.h": "c",
+        "at32f403a_407.h": "c",
+        "lv_port_disp.h": "c",
+        "timer.h": "c"
+    }
+}

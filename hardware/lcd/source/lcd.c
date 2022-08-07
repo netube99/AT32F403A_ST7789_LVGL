@@ -184,7 +184,7 @@ void LCD_Init(void)
 	LCD_WR_DATA8(0x20);
 	LCD_WR_REG(0x29);
 
-	LCD_Fill(0, 0, 240, 320, 0xF000);//清屏
+	LCD_Fill(0, 0, 240, 320, 0x0000);//清屏
 
 	LCD_BLK_Set();//打开背光
 }
