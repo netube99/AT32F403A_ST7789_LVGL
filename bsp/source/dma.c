@@ -22,7 +22,7 @@ void Dma1_Ch3_Config(uint32_t memory_base_addr, uint32_t peripheral_base_addr, u
     dma_init_struct.loop_mode_enable = FALSE;                                   //非循环模式
     dma_init(DMA1_CHANNEL3, &dma_init_struct);                                  //初始化dma
     dma_interrupt_enable(DMA1_CHANNEL3, DMA_FDT_INT, TRUE);                     //使能传输完成中断
-    nvic_irq_enable(DMA1_Channel3_IRQn, 1, 0);//开启中断
+    nvic_irq_enable(DMA1_Channel3_IRQn, 0, 0);//开启中断
     dma1_ch3_busy = 1 ;
     _DMA1CH3_ENABLE();
 }

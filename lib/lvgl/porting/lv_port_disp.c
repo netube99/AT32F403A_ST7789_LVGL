@@ -82,15 +82,15 @@ void lv_port_disp_init(void)
      */
 
     /* Example for 1) */
-    static lv_disp_draw_buf_t draw_buf_dsc_1;
-    static lv_color_t buf_1[MY_DISP_HOR_RES * 20];                          /*A buffer for 10 rows*/
-    lv_disp_draw_buf_init(&draw_buf_dsc_1, buf_1, NULL, MY_DISP_HOR_RES * 20);   /*Initialize the display buffer*/
+    // static lv_disp_draw_buf_t draw_buf_dsc_1;
+    // static lv_color_t buf_1[MY_DISP_HOR_RES * 20];                          /*A buffer for 10 rows*/
+    // lv_disp_draw_buf_init(&draw_buf_dsc_1, buf_1, NULL, MY_DISP_HOR_RES * 20);   /*Initialize the display buffer*/
 
     // // /* Example for 2) */
-    // static lv_disp_draw_buf_t draw_buf_dsc_2;
-    // static lv_color_t buf_2_1[MY_DISP_HOR_RES * 20];                        /*A buffer for 10 rows*/
-    // static lv_color_t buf_2_2[MY_DISP_HOR_RES * 20];                        /*An other buffer for 10 rows*/
-    // lv_disp_draw_buf_init(&draw_buf_dsc_2, buf_2_1, buf_2_2, MY_DISP_HOR_RES * 20);   /*Initialize the display buffer*/
+    static lv_disp_draw_buf_t draw_buf_dsc_2;
+    static lv_color_t buf_2_1[MY_DISP_HOR_RES * 48];                        /*A buffer for 10 rows*/
+    static lv_color_t buf_2_2[MY_DISP_HOR_RES * 48];                        /*An other buffer for 10 rows*/
+    lv_disp_draw_buf_init(&draw_buf_dsc_2, buf_2_1, buf_2_2, MY_DISP_HOR_RES * 48);   /*Initialize the display buffer*/
 
     // /* Example for 3) also set disp_drv.full_refresh = 1 below*/
     // static lv_disp_draw_buf_t draw_buf_dsc_3;
@@ -102,8 +102,7 @@ void lv_port_disp_init(void)
     /*-----------------------------------
      * Register the display in LVGL
      *----------------------------------*/
-
-    static lv_disp_drv_t disp_drv;                         /*Descriptor of a display driver*/
+    static lv_disp_drv_t disp_drv;                  /*Descriptor of a display driver*/
     lv_disp_drv_init(&disp_drv);                    /*Basic initialization*/
 
     /*Set up the functions to access to your display*/
@@ -116,7 +115,7 @@ void lv_port_disp_init(void)
     disp_drv.flush_cb = disp_flush;
 
     /*Set a display buffer*/
-    disp_drv.draw_buf = &draw_buf_dsc_1;
+    disp_drv.draw_buf = &draw_buf_dsc_2;
 
     /*Required for Example 3)*/
     //disp_drv.full_refresh = 1;
@@ -163,17 +162,17 @@ static void disp_flush(lv_disp_drv_t * disp_drv, const lv_area_t * area, lv_colo
 {
     if(disp_flush_enabled)
     {
-        //设置刷屏区域
+        //等待上次传输结束
+        while(Dma1_Ch3_IsBusy());
+        //开始更新另一个buffer的数据
+        lv_disp_flush_ready(disp_drv);
+        //设置当前buffer刷屏区域
         LCD_Address_Set(area->x1, area->y1, area->x2, area->y2);
         //使能屏幕
         LCD_CS_Clr();
-        //计算需要传输的字节数
-        uint16_t pixels_number = 2 * (area->y2 - area->y1 + 1) * (area->x2 - area->x1 + 1);
-        //DMA把缓冲区的数据发送给SPI
-        Dma1_Ch3_Config((uint32_t)color_p, (uint32_t)SPI1+0x0C, pixels_number);
-        while(Dma1_Ch3_IsBusy());
+        //DMA把buffer的数据发送给SPI
+        Dma1_Ch3_Config((uint32_t)color_p, (uint32_t)SPI1+0x0C, (2*(area->y2-area->y1+1)*(area->x2-area->x1+1)));
     }
-    lv_disp_flush_ready(disp_drv);
 }
 
 /*OPTIONAL: GPU INTERFACE*/

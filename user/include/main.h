@@ -17,6 +17,7 @@
 //application
 #include "lvgl.h"
 #include "lv_port_disp.h"
+#include "lv_demos.h"
 
 void System_Init(void);
 

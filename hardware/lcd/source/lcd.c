@@ -65,13 +65,36 @@ void LCD_Delay_Ms(uint16_t ms)
 */
 void LCD_Address_Set(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2)
 {
-	LCD_WR_REG(0x2a);	//列地址设置
-	LCD_WR_DATA(x1);
-	LCD_WR_DATA(x2);
-	LCD_WR_REG(0x2b);	//行地址设置
-	LCD_WR_DATA(y1);
-	LCD_WR_DATA(y2);
-	LCD_WR_REG(0x2c);	//储存器写
+	LCD_CS_Clr();
+	LCD_DC_Clr();//写命令
+	spi_i2s_data_transmit(LCD_SPIX, 0x2a);
+	while(spi_i2s_flag_get(LCD_SPIX, SPI_I2S_BF_FLAG)){};
+	LCD_DC_Set();//写数据
+	spi_i2s_data_transmit(LCD_SPIX, x1>>8);
+	while(spi_i2s_flag_get(LCD_SPIX, SPI_I2S_BF_FLAG)){};
+	spi_i2s_data_transmit(LCD_SPIX, x1);
+	while(spi_i2s_flag_get(LCD_SPIX, SPI_I2S_BF_FLAG)){};
+	spi_i2s_data_transmit(LCD_SPIX, x2>>8);
+	while(spi_i2s_flag_get(LCD_SPIX, SPI_I2S_BF_FLAG)){};
+	spi_i2s_data_transmit(LCD_SPIX, x2);
+	while(spi_i2s_flag_get(LCD_SPIX, SPI_I2S_BF_FLAG)){};
+	LCD_DC_Clr();//写命令
+	spi_i2s_data_transmit(LCD_SPIX, 0x2b);
+	while(spi_i2s_flag_get(LCD_SPIX, SPI_I2S_BF_FLAG)){};
+	LCD_DC_Set();//写数据
+	spi_i2s_data_transmit(LCD_SPIX, y1>>8);
+	while(spi_i2s_flag_get(LCD_SPIX, SPI_I2S_BF_FLAG)){};
+	spi_i2s_data_transmit(LCD_SPIX, y1);
+	while(spi_i2s_flag_get(LCD_SPIX, SPI_I2S_BF_FLAG)){};
+	spi_i2s_data_transmit(LCD_SPIX, y2>>8);
+	while(spi_i2s_flag_get(LCD_SPIX, SPI_I2S_BF_FLAG)){};
+	spi_i2s_data_transmit(LCD_SPIX, y2);
+	while(spi_i2s_flag_get(LCD_SPIX, SPI_I2S_BF_FLAG)){};
+	LCD_DC_Clr();//写命令
+	spi_i2s_data_transmit(LCD_SPIX, 0x2c);
+	while(spi_i2s_flag_get(LCD_SPIX, SPI_I2S_BF_FLAG)){};
+	LCD_DC_Set();//写数据
+	LCD_CS_Set();
 }
 
 /*

@@ -53,25 +53,22 @@ unsigned int system_core_clock           = HICK_VALUE; /*!< system clock frequen
 /** @addtogroup AT32F403A_407_system_private_functions
   * @{
   */
-// #define  EXTEND_SRAM  0xFE //使用224K
-// #define  EXTEND_SRAM  0xFF //使用96K
-// void extend_sram(void)
-// {
-//   if(((USD->eopb0) & 0xFF) != EXTEND_SRAM)
-//   {
-//     /* FLASH解锁 */  
-//     flash_unlock();
-
-//     /* 擦除选择字节 */
-//     flash_user_system_data_erase();
-
-//     /* 设置SRAM大小*/
-//     flash_user_system_data_program((uint32_t)&USD->eopb0, EXTEND_SRAM);
-
-//     /* 系统复位重启生效 */
-//     nvic_system_reset();
-//   }
-// }
+#define  EXTEND_SRAM  0xFE //使用224K
+//#define  EXTEND_SRAM  0xFF //使用96K
+void extend_sram(void)
+{
+    if(((USD->eopb0) & 0xFF) != EXTEND_SRAM)
+    {
+        /* FLASH解锁 */  
+        flash_unlock();
+        /* 擦除选择字节 */
+        flash_user_system_data_erase();
+        /* 设置SRAM大小*/
+        flash_user_system_data_program((uint32_t)&USD->eopb0, EXTEND_SRAM);
+        /* 系统复位重启生效 */
+        nvic_system_reset();
+    }
+}
 
 /**
   * @brief  setup the microcontroller system
