@@ -16,17 +16,6 @@ void System_Timer_Init(void)
     tmr_counter_enable(TMR1, TRUE);
 }
 
-//周期1ms
-void TMR1_OVF_TMR10_IRQHandler(void)
-{
-    if(tmr_flag_get(TMR1, TMR_OVF_FLAG) != RESET)
-    {
-        tmr_flag_clear(TMR1, TMR_OVF_FLAG);
-        System_Timer_Flag_Set(1);
-        lv_tick_inc(1);
-    }
-}
-
 void System_Timer_Flag_Set(uint8_t flag)
 {
     system_timer_flag = flag ;
